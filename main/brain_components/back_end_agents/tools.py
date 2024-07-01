@@ -1,5 +1,5 @@
 from langchain_core.tools import Tool
-from .tools_funcs import create_backend_files_wrapper
+from main.brain_components.back_end_agents.tools_funcs import create_backend_files_wrapper
 
 BACKEND_AGENT_TOOLS = [
     Tool(

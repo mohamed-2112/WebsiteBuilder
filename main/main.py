@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import logging
 from main.brain_components.front_end_agents.user_interface_agent import UIAgent
+from main.brain_components.back_end_agents.back_end_agent import BackendAgent
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -16,9 +17,12 @@ def main():
     """
     load_environment()
     print("Hello and welcome to Python Website Builder!")
-    print("Testing the UI agent.")
-    ui_agent = UIAgent()
-    ui_agent.agent_trials()
+    # print("Testing the UI agent.")
+    # ui_agent = UIAgent()
+    # ui_agent.agent_trials()
+    print("Testing the backend agent")
+    backend_agent= BackendAgent()
+    backend_agent.agent_trials()
 
 
 def load_environment():

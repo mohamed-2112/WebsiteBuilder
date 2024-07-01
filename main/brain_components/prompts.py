@@ -32,8 +32,54 @@ error, review your code and try again. You might know the answer without tracing
 but you should still trace the review the code make sure. If it does not seem like you can write code, just return "I 
 don't know" as the answer."""
 
-REACT_AGENT_PROMPT_FASTAPI_input = {
+REACT_AGENT_PROMPT_FASTAPI_INPUT = {
     "input": "Generate FastAPI code for a simple application that has one route '/hello' which returns 'Hello, "
              "World!' when accessed."
+             "and DON'T NAME THE FILE main.py"
 }
 
+print("code inter prompt")
+print(PROMPT_CODE_INTERPRETER)
+print(PROMPT_CODE_INTERPRETER.messages[0].prompt.template)
+print("code react")
+print(REACT_AGENT_PROMPT.template)
+
+"""
+I should add something like 
+
+"""
+test_prompt = """
+{instructions}
+
+TOOLS:
+------
+
+You have access to the following tools:
+
+{tools}
+
+To use a tool, please use the following format:
+
+```
+Thought: Do I need to use a tool? Yes
+Action: the action to take, should be one of [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+```
+
+When you have a response to say to the Human, or if you do not need to use a tool, you MUST use the format:
+
+```
+Thought: Do I need to use a tool? No
+Final Answer: [your response here]
+```
+
+Begin!
+
+Previous conversation history:
+{chat_history}
+
+New input: {input}
+{agent_scratchpad}
+
+"""
