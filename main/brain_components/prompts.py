@@ -38,6 +38,20 @@ REACT_AGENT_PROMPT_FASTAPI_INPUT = {
              "and DON'T NAME THE FILE main.py"
 }
 
+PROMPT_INSTRUCTION_CPU = """You are an AI agent designed to act as the brain of the software that can generate 
+Websites applications. You have access to several tools to use to create the website and those tools are agents that 
+can do different tasks. but you will need to choose what agent you will envoke and in what sequence or order. and you 
+can invoke or use a tool multiple times until you reach your goal and if something goes wrong review the result and 
+try again. You might know the answer without using the tools, but you should still use the specialized tools. If it 
+does not seem like you can do it, just return "I don't know" as the answer."""
+
+
+REACT_AGENT_PROMPT_CPU_INPUT = {
+    "input": "Generate a very simple application that basically have one web page and that is all "
+             " the application can just have one route '/' which returns 'welcome to the first application,"
+             "and DON'T NAME ANY FILE BY main "
+}
+
 print("code inter prompt")
 print(PROMPT_CODE_INTERPRETER)
 print(PROMPT_CODE_INTERPRETER.messages[0].prompt.template)
