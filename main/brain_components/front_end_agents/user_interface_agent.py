@@ -11,7 +11,7 @@ class UIAgent(Agents):
         self.tools = USER_INTERFACE_AGENT_TOOLS
 
     def agent_trials(self):
-        agent_executor = self.agent_init()
+        agent_executor = self.agent_init(self.tools)
         res = agent_executor.invoke(input=REACT_AGENT_PROMPT_INPUT)
         print(res)
 
@@ -25,5 +25,5 @@ class UIAgent(Agents):
         :return: dict[str, Any] it will return the status on weather it successfully created the file or not
         """
         front_end_instance = cls()
-        front_end_agent_executor = front_end_instance.agent_init()
+        front_end_agent_executor = front_end_instance.agent_init(front_end_instance.tools)
         return front_end_agent_executor.invoke(input=prompt)

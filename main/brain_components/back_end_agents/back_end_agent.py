@@ -3,13 +3,13 @@ from langchain_openai import ChatOpenAI
 from langchain.agents import create_react_agent, AgentExecutor
 from main.brain_components.prompts import REACT_AGENT_PROMPT, REACT_AGENT_PROMPT_FASTAPI_INPUT, \
     PROMPT_INSTRUCTION_FASTAPI
+from main.brain_components.agents_interface import Agents
 
 
-class BackendAgent:
+class BackendAgent(Agents):
     def __init__(self):
+        super().__init__()
         self.tools = BACKEND_AGENT_TOOLS
-
-
 
     @classmethod
     def back_end_agent_wrapper(cls, prompt):
@@ -20,5 +20,5 @@ class BackendAgent:
         :return: dict[str, Any] it will return the status on weather it successfully created the file or not
         """
         backend_instance = cls()
-        back_end_agent_executor = backend_instance.agent_init()
+        back_end_agent_executor = backend_instance.agent_init(backend_instance.tools)
         return back_end_agent_executor.invoke(input=prompt)

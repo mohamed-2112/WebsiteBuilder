@@ -3,7 +3,7 @@ from main.brain_components.back_end_agents.back_end_agent import BackendAgent
 from main.brain_components.front_end_agents.user_interface_agent import UIAgent
 
 
-CPU_AGENT = [
+CPU_AGENT_TOOLS = [
     Tool(
         name="BackEnd Agent",
         func=BackendAgent.back_end_agent_wrapper,
