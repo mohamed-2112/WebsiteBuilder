@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from main.brain_components.front_end_agents.tools import USER_INTERFACE_AGENT_TOOLS
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_react_agent, AgentExecutor
-from main.brain_components.prompts import REACT_AGENT_PROMPT, REACT_AGENT_PROMPT_INPUT, PROMPT_INSTRUCTION
+from main.brain_components.prompts import REACT_AGENT_PROMPT, PROMPT_INSTRUCTION
 from main.utils.utils import override
 
 
