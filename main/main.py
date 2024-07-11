@@ -4,6 +4,10 @@ from pathlib import Path
 import logging
 from main.brain_components.front_end_agents.user_interface_agent import UIAgent
 from main.brain_components.back_end_agents.back_end_agent import BackendAgent
+# from main.reflection_agent.test_langGraph import test
+from main.reflexion_agent.reflexion import test_run
+
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -20,9 +24,13 @@ def main():
     # print("Testing the UI agent.")
     # ui_agent = UIAgent()
     # ui_agent.agent_trials()
-    print("Testing the backend agent")
-    backend_agent= BackendAgent()
-    backend_agent.agent_trials()
+    # print("Testing the backend agent")
+    # backend_agent= BackendAgent()
+    # backend_agent.agent_trials()
+    # print("testing for the langGraph")
+    # test()
+    print("testing the reflexion")
+    test_run()
 
 
 def load_environment():

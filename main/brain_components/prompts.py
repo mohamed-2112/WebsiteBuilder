@@ -52,11 +52,7 @@ REACT_AGENT_PROMPT_CPU_INPUT = {
              "and DON'T NAME ANY FILE BY main "
 }
 
-print("code inter prompt")
-print(PROMPT_CODE_INTERPRETER)
-print(PROMPT_CODE_INTERPRETER.messages[0].prompt.template)
-print("code react")
-print(REACT_AGENT_PROMPT.template)
+
 
 """
 I should add something like 
