@@ -1,43 +1,56 @@
-from typing import List, Sequence
-from langchain_core.messages import BaseMessage, HumanMessage
-from langgraph.graph import END, MessageGraph
-from main.reflection_agent.chains import generate_chain, reflect_chain
-REFLECT = "reflect"
-GENERATE = "generate"
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_openai import ChatOpenAI
+from dotenv import load_dotenv
+from pathlib import Path
+import datetime
+from langchain_core.output_parsers.openai_tools import JsonOutputToolsParser, PydanticToolsParser
+from langchain_core.messages import HumanMessage
+from main.reflexion_agent.shemas import AnswerQuestion
+
+env_path = Path('config') / '.env'
+load_dotenv(dotenv_path=env_path)
+
+llm = ChatOpenAI(model="gpt-4-turbo-preview")
+parser = JsonOutputToolsParser(return_id=True)
+parser_pydantic = PydanticToolsParser(tools=[AnswerQuestion])
+actor_prompt_template = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            """You are expert researcher.
+Current time: {time}
+
+1. {first_instruction}
+2. Reflect and critique your answer. Be severe to maximize improvement.
+3. Recommend search queries to research information and improve your answer.""",
+        ),
+        MessagesPlaceholder(variable_name="messages"),
+        ("system", "Answer the user's question above using the required format."),
+    ]
+).partial(
+    time=lambda: datetime.datetime.now().isoformat(),
+)
 
 
-def generation_node(state: Sequence[BaseMessage]):
-    return generate_chain.invoke({"messages": state})
+first_responder_prompt_template = actor_prompt_template.partial(
+    first_instruction="Provide a detailed ~250 word answer."
+)
 
+first_responder = first_responder_prompt_template | llm.bind_tools(
+    tools=[AnswerQuestion], tool_choice="AnswerQuestion"
+)
 
-def reflection_node(state: Sequence[BaseMessage]):
-    res = reflect_chain.invoke({"messages": state})
-    return [HumanMessage(content=res.content)]
-
-
-def should_continue(state: List[BaseMessage]):
-    if len(state) > 6:
-        return END
-    return REFLECT
+human_message = HumanMessage(
+    content="Write about AI-Powered SOC / autonomous soc  problem domain,"
+            " list startups that do that and raised capital."
+)
+chain = (
+        first_responder_prompt_template
+        | llm.bind_tools(tools=[AnswerQuestion], tool_choice="AnswerQuestion")
+        | parser_pydantic
+)
 
 
 def test_run():
-    builder = MessageGraph()
-    builder.add_node(GENERATE, generation_node)
-    builder.add_node(REFLECT, reflection_node)
-    builder.set_entry_point(GENERATE)
-    builder.add_conditional_edges(GENERATE, should_continue)
-    builder.add_edge(REFLECT, GENERATE)
-
-    graph = builder.compile()
-    print(graph.get_graph().draw_mermaid())
-
-    inputs = HumanMessage(content="""Make this tweet better:
-    @langChainAI
-    - newly tool Calling feature is seriously uderrated.
-    After a long wait, it's here- making the implementation of agents across different models with function calling much easier.
-    Make a video covering their newest blog post.
-    """)
-
-    response = graph.invoke(inputs)
-
+    res = chain.invoke(input={"messages": [human_message]})
+    print(res)
