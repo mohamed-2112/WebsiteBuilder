@@ -1,7 +1,3 @@
-from typing import List, Sequence
-from langchain_core.messages import BaseMessage, HumanMessage
-from langgraph.graph import END, MessageGraph
-from main.reflection_agent.chains import generate_chain, reflect_chain
 from dotenv import load_dotenv
 from langchain import hub
 from langchain.agents import create_react_agent
@@ -23,13 +19,9 @@ def triple(num: float) -> float:
     """
     return 3 * float(num)
 
+
 tools = [TavilySearchResults(max_results=1), triple]
 
 llm = ChatOpenAI()
 
 react_agent_runnable = create_react_agent(llm, tools, react_prompt)
-
-
-
-
-
