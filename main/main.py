@@ -8,7 +8,7 @@ from main.brain_components.back_end_agents.back_end_agent import BackendAgent
 from main.reflexion_agent.reflexion import test_run
 # from main.react_agent_langgraph.react_agent import test
 from main.corrective_rag.rag import test
-
+from main.corrective_rag import ingestion
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
