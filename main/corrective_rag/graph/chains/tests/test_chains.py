@@ -4,6 +4,8 @@ load_dotenv("D:\PycharmProjects\WebsiteBuilder\config\.env")
 
 from main.corrective_rag.graph.chains.retrieval_grader import GradeDocuments, retrieval_grader
 from main.corrective_rag.ingestion import retriever
+from pprint import pprint
+from main.corrective_rag.graph.chains.generation import generation_chain
 
 
 def test_retrieval_grader_answer_yes() -> None:
@@ -22,3 +24,9 @@ def test_retrieval_grader_answer_no() -> None:
 
     res: GradeDocuments = retrieval_grader.invoke({"question": question, "document": doc_txt})
     assert res.binary_score == "no"
+
+def test_generation_chain() -> None:
+    question = "agent memory"
+    docs = retriever.invoke(question)
+    generation = generation_chain.invoke({"context": docs, "question": question})
+    pprint(generation)
