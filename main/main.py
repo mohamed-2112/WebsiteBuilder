@@ -2,12 +2,13 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 import logging
-from main.brain_components.front_end_agents.user_interface_agent import UIAgent
-from main.brain_components.back_end_agents.back_end_agent import BackendAgent
+# from main.brain_components.front_end_agents.user_interface_agent import UIAgent
+# from main.brain_components.back_end_agents.back_end_agent import BackendAgent
 # from main.reflection_agent.test_langGraph import test
-from main.reflexion_agent.reflexion import test_run
-
-
+# from main.reflexion_agent.reflexion import test_run
+# from main.react_agent_langgraph.react_agent import test
+from main.corrective_rag.rag import test
+# from main.corrective_rag import ingestion
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -29,9 +30,8 @@ def main():
     # backend_agent.agent_trials()
     # print("testing for the langGraph")
     # test()
-    print("testing the reflexion")
-    test_run()
-
+    print("testing the rag")
+    test()
 
 def load_environment():
     """
